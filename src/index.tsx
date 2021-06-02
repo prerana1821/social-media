@@ -6,6 +6,9 @@ import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 
+// console.log(store.getState());
+store.subscribe(() => console.log("change happened", store.getState()));
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>

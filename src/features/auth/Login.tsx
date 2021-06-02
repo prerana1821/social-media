@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../app/hooks";
 import { Footer, Header } from "../../components";
 import LoginImg from "./../../images/login.svg";
+import {
+  statusShown,
+  login,
+  tokenAdded,
+  userCredentialsDataLoaded,
+} from "./authSlice";
 
 export const Login = () => {
   const [loginCredentials, setLoginCredentials] = useState({
@@ -11,7 +18,27 @@ export const Login = () => {
     msg: "",
   });
 
-  const loginHandler = () => {};
+  const dispatch = useAppDispatch();
+
+  const loginHandler = () => {
+    if (loginCredentials.username && loginCredentials.password) {
+      dispatch(
+        login({
+          username: loginCredentials.username,
+          password: loginCredentials.password,
+          dispatch,
+          statusShown,
+          tokenAdded,
+          userCredentialsDataLoaded,
+        })
+      );
+    } else {
+      setLoginCredentials({
+        ...loginCredentials,
+        msg: "Username is required & Password is required",
+      });
+    }
+  };
 
   return (
     <>

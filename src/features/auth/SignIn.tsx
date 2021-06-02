@@ -1,14 +1,31 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import { selectAuth } from "./authSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  // selectAuth,
+  signin,
+  statusShown,
+  userCredentialsDataLoaded,
+  tokenAdded,
+} from "./authSlice";
 import SignInImg from "./../../images/signin.png";
 import "./SignIn.css";
 import { Footer, Header } from "../../components";
 
-export const SignIn = () => {
-  const auth = useAppSelector(selectAuth);
+export const emailValidator = (email: string) => {
+  return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+    email
+  );
+};
 
+export const formatBirthdate = (date: String) => {
+  return date.split("-").reverse().join("-");
+};
+
+export const SignIn = () => {
+  // const auth = useAppSelector(selectAuth);
+
+  const dispatch = useAppDispatch();
   const [signUpCredentials, setSignUpCredentials] = useState({
     email: "",
     firstName: "",
@@ -24,6 +41,37 @@ export const SignIn = () => {
 
   const signUpHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (emailValidator(signUpCredentials.email)) {
+      if (signUpCredentials.password === signUpCredentials.confirmPassword) {
+        const formatedDate = formatBirthdate(signUpCredentials.birthdate);
+        console.log("Hello");
+        console.log({ formatedDate });
+        dispatch(
+          signin({
+            firstName: signUpCredentials.firstName,
+            lastName: signUpCredentials.lastName,
+            username: signUpCredentials.username,
+            password: signUpCredentials.password,
+            email: signUpCredentials.email,
+            birthDate: formatedDate,
+            dispatch,
+            statusShown,
+            userCredentialsDataLoaded,
+            tokenAdded,
+          })
+        );
+      } else {
+        setSignUpCredentials({
+          ...signUpCredentials,
+          msg: "Passwords doesn't Match",
+        });
+      }
+    } else {
+      setSignUpCredentials({
+        ...signUpCredentials,
+        msg: "Enter a valid email id",
+      });
+    }
   };
 
   return (
@@ -197,6 +245,7 @@ export const SignIn = () => {
                 type='date'
                 className='input-txt-error birthdate'
                 placeholder='Birthdate'
+                required
               />
             </div>
 
