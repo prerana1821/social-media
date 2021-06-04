@@ -1,4 +1,4 @@
-import { Tweet } from "./tweets.types"
+import { Tweet } from "../tweet/tweets.types"
 
 export type UserDetail = {
     _id: string;

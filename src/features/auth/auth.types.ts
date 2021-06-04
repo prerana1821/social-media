@@ -1,4 +1,4 @@
-import { UserCredentials } from "../../database/userCredentials.types"
+import { UserCredentials } from "./userCredentials.types"
 
 export type Status = {
     loading?: string;

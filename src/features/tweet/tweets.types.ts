@@ -1,10 +1,10 @@
-import { UserDetail } from "./userDetails.types"
+import { UserDetail } from "../userDetail/userDetails.types"
 
 export type Tweet = {
     _id: string;
     userId: UserDetail;
     text: string;
-    image: string;
+    file: string;
     likes: Likes[];
     replies: Replies[];
 }

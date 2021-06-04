@@ -1,8 +1,8 @@
 import { NavigateFunction, Route, Routes, useNavigate } from "react-router";
-import { SignIn, Login } from "./features";
+import { SignIn, Login, Explore } from "./features";
 import { Home } from "./pages/Home/Home";
 import "./App.css";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useAppDispatch } from "./app/hooks";
 import {
@@ -60,6 +60,7 @@ function App() {
     <div className='App'>
       <Routes>
         <Route path='/' element={<Home />}></Route>
+        <Route path='/explore' element={<Explore />}></Route>
         <Route path='/signin' element={<SignIn />}></Route>
         <Route path='/login' element={<Login />}></Route>
       </Routes>

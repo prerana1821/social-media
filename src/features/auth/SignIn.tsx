@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import {
   // selectAuth,
   signin,
@@ -23,8 +23,6 @@ export const formatBirthdate = (date: String) => {
 };
 
 export const SignIn = () => {
-  // const auth = useAppSelector(selectAuth);
-
   const dispatch = useAppDispatch();
   const [signUpCredentials, setSignUpCredentials] = useState({
     email: "",

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { NavigateFunction } from "react-router";
 import { RootState } from "../../app/store";
-import { UserCredentials } from "../../database/userCredentials.types";
+import { UserCredentials } from "./userCredentials.types";
 import { AuthState, ServerError, Status } from "./auth.types";
 
 export const setupAuthHeaderForServiceCalls = (
@@ -184,6 +184,8 @@ export const authSlice = createSlice({
             });
     },
 })
+
+
 
 export const { tokenAdded, userCredentialsDataLoaded, statusShown, userCredentialsDataDeleted } = authSlice.actions;
 
