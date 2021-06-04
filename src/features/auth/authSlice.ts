@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { NavigateFunction } from "react-router";
 import { RootState } from "../../app/store";
 import { UserCredentials } from "./userCredentials.types";
-import { AuthState, ServerError, Status } from "./auth.types";
+import { AuthState, Status } from "./auth.types";
 
 export const setupAuthHeaderForServiceCalls = (
     token: string
@@ -40,104 +40,35 @@ export type SignInParameters = {
     password: string;
     email: string;
     birthDate: string;
-    /* ASK */
-    dispatch: any;
-    statusShown: (status: Status) => void;
-    userCredentialsDataLoaded: (user: UserCredentials) => void;
-    tokenAdded: (token: string) => void;
 }
 
 export type SignInResponse = { user: UserCredentials, token: string };
 
 export const signin = createAsyncThunk("auth/signin", async ({
-    firstName, lastName, username, password, email, birthDate, dispatch, statusShown, userCredentialsDataLoaded, tokenAdded
+    firstName, lastName, username, password, email, birthDate,
 }: SignInParameters) => {
-    try {
-        console.log({ birthDate });
-        const response = await axios.post<SignInResponse>(
-            "https://api-socialelite.prerananawar1.repl.co/auth/signup", {
-            firstName, lastName, username, password, email, birthDate,
-        }
-        );
-        if (response.status === 201) {
-            dispatch(userCredentialsDataLoaded(response.data.user))
-            dispatch(tokenAdded(response.data.token));
-            setupAuthHeaderForServiceCalls(response.data.token);
-            localStorage?.setItem("token", JSON.stringify({ token: response.data.token }));
-            localStorage?.setItem("user", JSON.stringify(response.data.user));
-            dispatch(statusShown({ success: `Login Successfull! ${response.data.user.firstName}` }))
-        }
-    } catch (error) {
-        console.log(error.response);
-        if (axios.isAxiosError(error)) {
-            const serverError = error as AxiosError<ServerError>;
-            if (serverError && serverError.response) {
-                return dispatch(statusShown({
-                    error: {
-                        errorMessage: serverError.response.data.errorMessage,
-                        errorCode: serverError.response.data.errorCode,
-                    },
-                }))
-            }
-        }
-        console.log(error.response);
-        return dispatch(statusShown({
-            error: {
-                errorMessage: "Something went wrong, Try Again!!",
-                errorCode: 403,
-            },
-        }))
+    const response = await axios.post<SignInResponse>(
+        "https://api-socialelite.prerananawar1.repl.co/auth/signup", {
+        firstName, lastName, username, password, email, birthDate,
     }
+    );
+    return response.data;
 });
 
 export type LoginParameters = {
     username: string;
     password: string;
-    dispatch: any;
-    statusShown: (status: Status) => void;
-    tokenAdded: (token: string) => void;
-    userCredentialsDataLoaded: (user: UserCredentials) => void;
 }
 
 export type LoginResponse = {
     user: UserCredentials, token: string
 }
 
-export const login = createAsyncThunk('auth/login', async ({ username, password, dispatch, statusShown, tokenAdded, userCredentialsDataLoaded }: LoginParameters) => {
-    try {
-        const response = await axios.post<LoginResponse>('https://api-socialelite.prerananawar1.repl.co/auth/login', {
-            username, password
-        })
-        console.log({ response });
-        if (response.status === 200) {
-            dispatch(userCredentialsDataLoaded(response.data.user))
-            dispatch(tokenAdded(response.data.token));
-            setupAuthHeaderForServiceCalls(response.data.token);
-            localStorage?.setItem("token", JSON.stringify({ token: response.data.token }));
-            localStorage?.setItem("user", JSON.stringify(response.data.user));
-            dispatch(statusShown({ success: `Login Successfull! ${response.data.user.firstName}` }))
-        }
-    } catch (error) {
-        console.log(error.response);
-        if (axios.isAxiosError(error)) {
-            const serverError = error as AxiosError<ServerError>;
-            if (serverError && serverError.response) {
-                return dispatch(statusShown({
-                    error: {
-                        errorMessage: serverError.response.data.errorMessage,
-                        errorCode: serverError.response.data.errorCode,
-                    },
-                }))
-            }
-        }
-        console.log(error.response);
-        return dispatch(statusShown({
-            error: {
-                errorMessage: "Something went wrong, Try Again!!",
-                errorCode: 403,
-            },
-        }))
-    }
+export const login = createAsyncThunk('auth/login', async ({ username, password }: LoginParameters) => {
+    const response = await axios.post<LoginResponse>('https://api-socialelite.prerananawar1.repl.co/auth/login', {
+        username, password
+    })
+    return response.data;
 });
 
 export type LogoutParameters = {
@@ -173,19 +104,39 @@ export const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(signin.pending, (state) => {
-                state.status.loading = 'loading';
+                state.status.loading = 'loading...';
             })
             .addCase(signin.fulfilled, (state, action) => {
-                state.status.loading = 'fulfilled';
-                // state.posts = action.payload.posts;
-                // state.value += action.payload;
-            }).addCase(signin.rejected, (state, action) => {
-                state.status.error!.errorMessage = action.error.message || 'Something went wrong';
+                state.token = action.payload.token;
+                state.user = action.payload.user;
+                setupAuthHeaderForServiceCalls(action.payload.token);
+                localStorage?.setItem("token", JSON.stringify({ token: action.payload.token }));
+                localStorage?.setItem("user", JSON.stringify(action.payload.user));
+                state.status.success = `SignIn Successfull! ${action.payload.user.firstName}`
+            })
+            .addCase(signin.rejected, (state, action) => {
+                // state.status.error!.errorCode = action.error.code || '403';
+                state.status.error!.errorMessage = action.error.message ? action.error.message : 'Something went wrong';
+            })
+            .addCase(login.pending, (state) => {
+                state.status.loading = 'loading...';
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+                state.user = action.payload.user;
+                setupAuthHeaderForServiceCalls(action.payload.token);
+                localStorage?.setItem("token", JSON.stringify({ token: action.payload.token }));
+                localStorage?.setItem("user", JSON.stringify(action.payload.user));
+                state.status.success = `Login Successfull! ${action.payload.user.firstName}`
+            })
+            .addCase(login.rejected, (state, action) => {
+                if (state.status.error) {
+                    state.status.error.errorCode = action.error.code || '403';
+                    state.status.error.errorMessage = action.error.message ? action.error.message : 'Something went wrong'
+                }
             });
     },
 })
-
-
 
 export const { tokenAdded, userCredentialsDataLoaded, statusShown, userCredentialsDataDeleted } = authSlice.actions;
 

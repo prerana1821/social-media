@@ -12,8 +12,7 @@ export type AuthState = {
     status: Status,
 }
 
-
 export type ServerError = {
     errorMessage: string;
-    errorCode: number;
+    errorCode?: string;
 }

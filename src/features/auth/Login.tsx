@@ -26,10 +26,10 @@ export const Login = () => {
         login({
           username: loginCredentials.username,
           password: loginCredentials.password,
-          dispatch,
-          statusShown,
-          tokenAdded,
-          userCredentialsDataLoaded,
+          // dispatch,
+          // statusShown,
+          // tokenAdded,
+          // userCredentialsDataLoaded,
         })
       );
     } else {

@@ -52,10 +52,10 @@ export const SignIn = () => {
             password: signUpCredentials.password,
             email: signUpCredentials.email,
             birthDate: formatedDate,
-            dispatch,
-            statusShown,
-            userCredentialsDataLoaded,
-            tokenAdded,
+            // dispatch,
+            // statusShown,
+            // userCredentialsDataLoaded,
+            // tokenAdded,
           })
         );
       } else {
@@ -243,6 +243,12 @@ export const SignIn = () => {
                 type='date'
                 className='input-txt-error birthdate'
                 placeholder='Birthdate'
+                onChange={(e) =>
+                  setSignUpCredentials(() => ({
+                    ...signUpCredentials,
+                    birthdate: e.target.value,
+                  }))
+                }
                 required
               />
             </div>

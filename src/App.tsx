@@ -2,7 +2,7 @@ import { NavigateFunction, Route, Routes, useNavigate } from "react-router";
 import { SignIn, Login, Explore } from "./features";
 import { Home } from "./pages/Home/Home";
 import "./App.css";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useAppDispatch } from "./app/hooks";
 import {
