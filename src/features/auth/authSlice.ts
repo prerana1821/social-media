@@ -88,15 +88,15 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: initialAuthState,
     reducers: {
-        statusShown: (state, action) => {
-            state.status = action.payload
-        },
+        // statusShown: (state, action) => {
+        //     state.status = action.payload
+        // },
         userCredentialsDataLoaded: (state, action) => {
             state.user = action.payload
         },
-        tokenAdded: (state, action) => {
-            state.token = action.payload
-        },
+        // tokenAdded: (state, action) => {
+        //     state.token = action.payload
+        // },
         userCredentialsDataDeleted: (state) => {
             state = initialAuthState
         }
@@ -138,7 +138,7 @@ export const authSlice = createSlice({
     },
 })
 
-export const { tokenAdded, userCredentialsDataLoaded, statusShown, userCredentialsDataDeleted } = authSlice.actions;
+export const { userCredentialsDataLoaded, userCredentialsDataDeleted } = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth;
 

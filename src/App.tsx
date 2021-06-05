@@ -2,7 +2,7 @@ import { NavigateFunction, Route, Routes, useNavigate } from "react-router";
 import { SignIn, Login, Explore } from "./features";
 import { Home } from "./pages/Home/Home";
 import "./App.css";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useAppDispatch } from "./app/hooks";
 import {
@@ -10,6 +10,8 @@ import {
   userCredentialsDataDeleted,
   userCredentialsDataLoaded,
 } from "./features/auth/authSlice";
+import { PrivateRoute } from "./features/auth/PrivateRoute";
+import { Profile } from "./features/userDetail/Profile";
 
 export const setupAuthExceptionHandler = (
   // logout: ({
@@ -63,6 +65,7 @@ function App() {
         <Route path='/explore' element={<Explore />}></Route>
         <Route path='/signin' element={<SignIn />}></Route>
         <Route path='/login' element={<Login />}></Route>
+        <PrivateRoute path='/profile' element={<Profile />}></PrivateRoute>
       </Routes>
     </div>
   );

@@ -1,3 +1,4 @@
+import { Status } from "../auth/auth.types"
 import { Tweet } from "../tweet/tweets.types"
 
 export type UserDetail = {
@@ -17,4 +18,9 @@ export type UserDetail = {
 export type Notification = {
     type: string;
     text: string;
+}
+
+export type InitialUserDetailsState = {
+    userDetails: UserDetail | null,
+    status: Status,
 }

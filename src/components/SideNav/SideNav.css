@@ -1,0 +1,38 @@
+.nav-img {
+  width: 32px;
+  height: 32px;
+}
+
+.nav-div {
+  display: flex;
+  align-items: end;
+  font-size: x-large;
+  justify-content: end;
+  margin: 2rem 0;
+  gap: 1rem;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.side-nav {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  padding: 2rem 0 2rem 2rem;
+}
+
+.nav-bottom {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.nav-bottom > div {
+  text-align: initial;
+}

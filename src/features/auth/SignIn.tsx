@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
-import {
-  // selectAuth,
-  signin,
-  statusShown,
-  userCredentialsDataLoaded,
-  tokenAdded,
-} from "./authSlice";
+import { signin } from "./authSlice";
 import SignInImg from "./../../images/signin.png";
 import "./SignIn.css";
 import { Footer, Header } from "../../components";
@@ -52,10 +46,6 @@ export const SignIn = () => {
             password: signUpCredentials.password,
             email: signUpCredentials.email,
             birthDate: formatedDate,
-            // dispatch,
-            // statusShown,
-            // userCredentialsDataLoaded,
-            // tokenAdded,
           })
         );
       } else {
