@@ -1,0 +1,49 @@
+.home-header {
+  border: 0.5px solid #ccc;
+  text-align: initial;
+  padding: 0 1rem;
+}
+
+.input-tweet {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  padding: 1rem;
+  border: 0.5px solid #ccc;
+}
+
+.input-text {
+  padding: 1rem;
+  font-size: x-large;
+  resize: none;
+  border: none;
+  outline: #fff;
+  font-family: "Varela Round", sans-serif;
+}
+
+.input-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0 0 1rem;
+  border-top: 1px solid #ccc;
+}
+
+::-webkit-input-placeholder {
+  font-family: "Varela Round", sans-serif;
+}
+
+.input-actions {
+  display: flex;
+  grid-gap: 1rem;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.image-upload > input {
+  display: none;
+}
+
+.input-actions img {
+  cursor: pointer;
+  width: 28px;
+}

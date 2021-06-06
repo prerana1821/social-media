@@ -56,9 +56,9 @@ export const Profile = () => {
   return (
     <div>
       <SideNav />
-      <div className='profile'>
+      <div className='right-side'>
         {edit && <EditProfile setEdit={setEdit} />}
-        <div className='profile-details'>
+        <div className='right-side-details'>
           <div className='profile-header'>
             <h4>
               {user?.firstName} {user?.lastName}
