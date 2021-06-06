@@ -28,7 +28,7 @@ export const updateProfile = createAsyncThunk("userDetails/updateProfile", async
     data.append("backgroundImage", backgroundImage);
     data.append("profileImage", profileImage);
     console.log(data);
-    const response = await axios.post(
+    const response = await axios.post<{ updatedUserDetails: UserDetail }>(
         "https://api-socialelite.prerananawar1.repl.co/user-details", data);
     console.log(response.data);
     return response.data.updatedUserDetails;
