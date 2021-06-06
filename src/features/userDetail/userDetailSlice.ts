@@ -12,6 +12,28 @@ export const loadUserDetails = createAsyncThunk("userDetails/loadUserDetails", a
     return response.data.userDetails;
 });
 
+export type UpdateProfileParams = {
+    bio: string,
+    location: string,
+    url: string,
+    backgroundImage: File,
+    profileImage: File,
+}
+
+export const updateProfile = createAsyncThunk("userDetails/updateProfile", async ({ bio, location, url, backgroundImage, profileImage }: UpdateProfileParams) => {
+    const data = new FormData();
+    data.append("bio", bio);
+    data.append("location", location);
+    data.append("url", url);
+    data.append("backgroundImage", backgroundImage);
+    data.append("profileImage", profileImage);
+    console.log(data);
+    const response = await axios.post(
+        "https://api-socialelite.prerananawar1.repl.co/user-details", data);
+    console.log(response.data);
+    return response.data.updatedUserDetails;
+})
+
 export const initialUserDetailsState: InitialUserDetailsState = {
     userDetails: null,
     status: {} as Status
@@ -31,6 +53,19 @@ export const userDetailSlice = createSlice({
                 state.userDetails = action.payload;
             })
             .addCase(loadUserDetails.rejected, (state, action) => {
+                if (state.status.error) {
+                    state.status.error.errorCode = action.error.code || '403';
+                    state.status.error.errorMessage = action.error.message ? action.error.message : 'Something went wrong'
+                }
+            })
+            .addCase(updateProfile.pending, (state) => {
+                state.status.loading = 'updating profile...';
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.status.success = 'fulfilled';
+                state.userDetails = action.payload
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
                 if (state.status.error) {
                     state.status.error.errorCode = action.error.code || '403';
                     state.status.error.errorMessage = action.error.message ? action.error.message : 'Something went wrong'

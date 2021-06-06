@@ -1,6 +1,7 @@
 .background-img {
   background-color: #c4cfd6;
   height: 100%;
+  width: 100%;
   max-height: 215px;
 }
 
@@ -29,8 +30,14 @@
 
 .profile-img {
   width: 150px;
+  border: 5px solid #fff;
   border-radius: 50%;
   margin-top: -4.4rem;
+}
+
+.profile-bio {
+  text-align: initial;
+  padding: 1rem 2rem;
 }
 
 .profile-name {
@@ -50,4 +57,11 @@
   border: 2px solid var(--dk-pink);
   background: #fff;
   color: var(--dk-pink);
+}
+
+.profile-edit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

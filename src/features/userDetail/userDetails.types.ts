@@ -5,7 +5,7 @@ export type UserDetail = {
     _id: string;
     bio: string;
     url: string;
-    birthdate: Date;
+    birthDate: Date;
     location: string;
     backgroundImage: string;
     profileImage: string;
